@@ -1,0 +1,33 @@
+﻿  main.cpp
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(58): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(84): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(92): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(101): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(124): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(141): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\structures_and_classes.h(166): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\seq_alignment.h(33): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\seq_alignment.h(39): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\seq_alignment.h(42): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\seq_alignment.h(44): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\seq_alignment.h(47): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\seq_alignment.h(48): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\connectivity_components.h(29): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(28): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(42): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(95): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(81): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(103): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(108): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\dropped_nodes.h(111): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\count_unavailable_nodes.h(18): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\count_unavailable_nodes.h(32): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\count_unavailable_nodes.h(43): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\count_unavailable_nodes.h(84): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\gen_net_alignment.h(12): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\gen_net_alignment.h(25): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\gen_net_alignment.h(50): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\exhaustive_search.h(13): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\exhaustive_search.h(66): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\gen_net_alignment\exhaustive_search.h(48): warning C4018: <: несоответствие типов со знаком и без знака
+  Gen_net_alignment.vcxproj -> C:\Users\кирилл\OneDrive\научая работа\Выравнивание сетей через ребра\Gen_net_alignment\Debug\Gen_net_alignment.exe
