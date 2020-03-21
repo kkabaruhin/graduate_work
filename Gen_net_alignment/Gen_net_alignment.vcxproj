@@ -119,8 +119,10 @@
     <ClInclude Include="count_unavailable_nodes.h" />
     <ClInclude Include="dropped_nodes.h" />
     <ClInclude Include="exhaustive_search.h" />
-    <ClInclude Include="Gen_net_alignment.h" />
+    <ClInclude Include="lenear_alignment.h" />
+    <ClInclude Include="score_alignment.h" />
     <ClInclude Include="seq_alignment.h" />
+    <ClInclude Include="stretching.h" />
     <ClInclude Include="structures_and_classes.h" />
   </ItemGroup>
   <ItemGroup>

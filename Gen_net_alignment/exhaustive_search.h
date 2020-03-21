@@ -1,6 +1,6 @@
 #pragma once
 #include"structures_and_classes.h"
-#include"Gen_net_alignment.h"
+#include"score_alignment.h"
 #include<set>
 
 class exhaustive_search_class

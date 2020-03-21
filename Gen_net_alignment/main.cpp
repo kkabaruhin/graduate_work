@@ -1,31 +1,77 @@
 #include "exhaustive_search.h"
-
+#include "lenear_alignment.h"
+#include<ctime>
 
 int main()
 {
+	double begin_time = clock();
 	Net net;
-	Net pattern;
 
-	Node n = { 1, {2}, "AA" };
-	pattern.AddNode(n);
-	n = { 2, {}, "CC" };
-	pattern.AddNode(n);
+	Node n;
 
-	n = { 1, {2}, "AA" };
+	n = { 1, {2}, "AAAA" };
 	net.AddNode(n);
-	n = { 2, {3}, "CC" };
+	n = { 2, {4}, "CCCC" };
 	net.AddNode(n);
-	n = { 3, {}, "TT" };
+	n = { 3, {4}, "TTTT" };
+	net.AddNode(n);
+	n = { 4, {5}, "TTTT" };
+	net.AddNode(n);
+	n = { 5, {6, 7}, "CCCC" };
+	net.AddNode(n);
+	n = { 6, {5}, "TTTT" };
+	net.AddNode(n);
+	n = { 7, {}, "TTTT" };
 	net.AddNode(n);
 
-	exhaustive_search_class esc;
+	fill_path_table(net);
 
-	set<alignment> result = esc.exhaustive_search(pattern, net);
-
-	for (alignment al : result)
-	{
-		al.print();
+	for (auto i : net.Nodes) {
+		for (auto j : net.Nodes) {
+			if (path_table[i.first].find(j.first) != path_table[i.first].end()) {
+				if (path_table[i.first][j.first].size() > 0) {
+					for (int k = 0; k < path_table[i.first][j.first].size(); k++) {
+						cout << path_table[i.first][j.first][k].length << ",";
+					}
+					cout << "  ";
+				}
+				else {
+					cout << 0 << "  ";
+				}
+			}
+			else {
+				cout << 0 << "  ";
+			}
+		}
+		cout << endl;
 	}
+	
+	double end_time = clock();
+
+
+	vector<int> vec = vector<int>();
+
+	vec.push_back(0);
+	vec.push_back(1);
+	vec.push_back(2);
+	vec.push_back(3);
+	vec.push_back(4);
+
+	cout << endl << endl;
+
+	for (int i = 0; i < vec.size(); ++i) {
+		if (vec[i] > 2) {
+			vec.erase(vec.begin() + i);
+			--i;
+		}
+	}
+
+	for (int i = 0; i < vec.size(); ++i) {
+		cout << vec[i] << endl;
+	}
+
+	cout << endl << "time: " << end_time - begin_time << endl;
+
 
 	system("pause");
 	return 0;

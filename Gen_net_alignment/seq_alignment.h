@@ -32,7 +32,7 @@ double p(char c1, char c2)
 //локальне сравнение последовательностей. »щем вхождение seq2 в seq1
 double local_alignment_seq(string& const seq1, string& const seq2)
 {
-	double result = 0;
+	fill_subst_matr();
 	vector<vector<double>> matr;
 	matr.resize(seq1.length() + 1);
 
@@ -47,15 +47,26 @@ double local_alignment_seq(string& const seq1, string& const seq2)
 	for (int i = 1; i < matr.size(); i++)
 		for (int j = 1; j < matr[0].size(); j++)
 		{
-			double max_val = 0;
-			max_val = max(max_val, matr[i - 1][j] + g);
-			max_val = max(max_val, matr[i][j - 1] + g);
+			double max_val = LONG_MIN;
+
 			max_val = max(max_val, matr[i - 1][j - 1] + p(seq1[i - 1], seq2[j - 1]));
 
-			matr[i][j] = max_val;
+			if (i < matr.size() - 1 && j < matr[0].size() - 1)
+			{
+				max_val = max(max_val, matr[i - 1][j] + g);
+				max_val = max(max_val, matr[i][j - 1] + g);
+			}
+			if (i == matr.size() - 1)
+			{
+				max_val = max(max_val, matr[i][j - 1]);
+			}
+			if (j == matr[0].size() - 1)
+			{
+				max_val = max(max_val, matr[i - 1][j]);
+			}
 
-			result = max(result, max_val);
+			matr[i][j] = max_val;
 		}
 
-	return result;
+	return matr[matr.size() - 1][matr[0].size() - 1];
 }
