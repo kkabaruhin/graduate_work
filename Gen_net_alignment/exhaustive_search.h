@@ -12,12 +12,7 @@ class exhaustive_search_class
 	//m - кол-во вершин в паттерне. n - кол-во вершин в сети. q, k - кол-во ребер в паттерне и сети соответственно
 	alignment from_bool_to_alig(vector<bool> transposition, int m, int n, int q, int k, Net& const pattern, Net& const net)
 	{
-		alignment result;
-
-		result.Edges = vector<vector<edge>>();
-
-		for (int i = 0; i < q; i++)
-			result.Edges.push_back(vector<edge>());
+		alignment result = alignment(pattern.Edges.size());
 
 		for (int i = 0; i < m; i++)
 			for (int j = 0; j < n; j++)

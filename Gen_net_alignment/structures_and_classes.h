@@ -69,16 +69,16 @@ struct edge
 
 struct Net
 {
+	int root; //индекс корневой вершины
 	unordered_map<int, Node> Nodes;
 	vector<edge> Edges;
-	//unordered_map<int, int> display; //Отображение, позволяющее по оригинальному индексу вершины найти соответствующий индекс в net
-									 //необходимо, чтобы индексы вершин сами по себе удовлетворяли лишь одному требования: не повторялись
-									 //допустимы вершины с отрицательными индексами, идущие в призвольном порядке и т.д.
+	unordered_map<int, unordered_map<int, int>> New_edges; //по номерам вершин, образующим edge, возвращает индекс в основном векторе
 
 	Net()
 	{
-		Nodes.reserve(512);
+		//Nodes.reserve(512);
 		Edges.reserve(131072);//2^17
+		//New_edges.reserve(131072);
 	}
 
 	void AddNode(Node& const n)
@@ -89,13 +89,20 @@ struct Net
 		{
 			Nodes[n.index] = n;
 
-			for (int i = 0; i < n.adjacent_nodes.size(); i++)
+			if (this->Nodes.size() == 1) {
+				this->root = n.index;
+			}
+
+			for (int i = 0; i < n.adjacent_nodes.size(); i++) {
 				this->Edges.push_back({ n.index, n.adjacent_nodes[i] });
+				this->New_edges[(*(--Edges.end())).from][(*(--Edges.end())).to] = Edges.size() - 1;
+			}
 		}
 	}
 
 	void print()
 	{
+		cout << "root: " << root << endl;
 		for (pair<int, Node> n : Nodes)
 			n.second.print();
 		for (int i = 0; i < Edges.size(); i++)
@@ -110,15 +117,23 @@ struct alignment
 
 	double score;
 
-	friend bool operator<(const alignment&  lv, const alignment& rv)
+	alignment(int pattern_length) {
+		this->Edges = vector<vector<edge>>();
+
+		this->Edges.resize(pattern_length, vector<edge>());
+	}
+
+	friend bool operator<(const alignment& lv, const alignment& rv)
 	{
 		if (abs(lv.score - rv.score) > 0.000001)
 			return lv.score < rv.score;
 
 		for (pair<int,vector<int>> x : lv.Nodes)
 		{
-			if (x.second.size() != rv.Nodes.at(x.first).size())
-				return x.second.size() < rv.Nodes.at(x.first).size();
+			if (rv.Nodes.count(x.first)) {
+				if (x.second.size() != rv.Nodes.at(x.first).size())
+					return x.second.size() < rv.Nodes.at(x.first).size();
+			}
 		}
 
 		for (int i = 0; i < lv.Edges.size(); i++)
@@ -130,11 +145,13 @@ struct alignment
 		for (pair<int, vector<int>> x : lv.Nodes)
 		{
 			for (int i : x.second)
-				if (find(rv.Nodes.at(x.first).begin(), rv.Nodes.at(x.first).end(), i) == rv.Nodes.at(x.first).end())
-				{
-					for (int j : rv.Nodes.at(x.first))
-						if (find(lv.Nodes.at(x.first).begin(), lv.Nodes.at(x.first).end(), j) == lv.Nodes.at(x.first).end())
-							return i < j;
+				if (rv.Nodes.count(x.first) > 0) {
+					if (find(rv.Nodes.at(x.first).begin(), rv.Nodes.at(x.first).end(), i) == rv.Nodes.at(x.first).end())
+					{
+						for (int j : rv.Nodes.at(x.first))
+							if (find(lv.Nodes.at(x.first).begin(), lv.Nodes.at(x.first).end(), j) == lv.Nodes.at(x.first).end())
+								return i < j;
+					}
 				}
 		}
 
@@ -191,10 +208,11 @@ struct WayStruct {
 	unordered_map<int, vector<int>> entry_points;
 
 	WayStruct(int index1, int index2) {
-		way = vector<int>();
-		way.push_back(index1);
-		way.push_back(index2);
-		length = 2;
+		this->way = vector<int>();
+		this->way.push_back(index1);
+		this->way.push_back(index2);
+		this->length = 2;
+		this->entry_points = unordered_map<int, vector<int>>();
 	}
 
 	WayStruct() {
@@ -203,8 +221,25 @@ struct WayStruct {
 		this->entry_points = unordered_map<int, vector<int>>();
 	}
 
-	void print() {
+	void addNode(int index) {
+		this->way.push_back(index);
+		this->length++;
+	}
 
+	void print() {
+		cout << "length : " << length << endl << "way: ";
+		for (int i : way) {
+			cout << i << " ";
+		}
+		cout << endl;
+		cout << "entry_points :" << endl;
+		for (auto kv : entry_points) {
+			cout << kv.first << ": ";
+			for (int j : kv.second) {
+				cout << j << " ";
+			}
+			cout << endl;
+		}
 	}
 
 	//путь является лишним (избыточным) <=> существует вершина, которая посещается более одного раза
@@ -250,3 +285,54 @@ WayStruct joinPath(WayStruct& const way1, WayStruct& const way2) {
 
 	return result;
 }
+
+struct WayPriority {
+	int column;
+	int line;
+	int index;
+	int priority;
+	WayStruct way;
+
+	WayPriority(int c, int l, int i, int p, WayStruct w) {
+		this->column = c;
+		this->line = l;
+		this->index = i;
+		this->priority = p;
+		this->way = w;
+	}
+
+	friend bool operator<(const WayPriority& left, const WayPriority& right) {
+		if (left.priority < right.priority)
+			return true;
+		if (left.priority > right.priority)
+			return false;
+
+		if (left.column < right.column)
+			return true;
+		if (left.column > right.column)
+			return false;
+
+		if (left.line < right.line)
+			return true;
+		if (left.line > right.line)
+			return false;
+
+		if (left.index < right.index)
+			return true;
+		if (left.index > right.index)
+			return false;
+
+		if (left.way.length < right.way.length)
+			return true;
+		if (left.way.length > right.way.length)
+			return false;
+
+		if (left.way.entry_points.size() < right.way.entry_points.size())
+			return true;
+		if (left.way.entry_points.size() > right.way.entry_points.size())
+			return false;
+
+		return false;
+	}
+};
+

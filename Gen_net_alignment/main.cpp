@@ -1,73 +1,54 @@
 #include "exhaustive_search.h"
 #include "lenear_alignment.h"
 #include<ctime>
+#include"random_net_generator.h"
 
 int main()
 {
+	srand(time(0));
 	double begin_time = clock();
-	Net net;
-
+	Net net = Net();
+	Net pattern = Net();
 	Node n;
 
-	n = { 1, {2}, "AAAA" };
+	n = { 1,{ 2 }, "AAAA" };
 	net.AddNode(n);
-	n = { 2, {4}, "CCCC" };
+	n = { 2,{ 4 }, "CCCC" };
 	net.AddNode(n);
-	n = { 3, {4}, "TTTT" };
+	n = { 3,{ 4 }, "TTTT" };
 	net.AddNode(n);
-	n = { 4, {5}, "TTTT" };
+	n = { 4,{ 5 }, "TTTT" };
 	net.AddNode(n);
-	n = { 5, {6, 7}, "CCCC" };
+	n = { 5,{ 6, 7 }, "CCCC" };
 	net.AddNode(n);
-	n = { 6, {5}, "TTTT" };
+	n = { 6,{ }, "TTTT" };
 	net.AddNode(n);
-	n = { 7, {}, "TTTT" };
+	n = { 7,{}, "TTTT" };
 	net.AddNode(n);
 
-	fill_path_table(net);
+	n = { 1,{ 2 }, "AAAA" };
+	pattern.AddNode(n);
+	n = { 2,{ 3 }, "CCCC" };
+	pattern.AddNode(n);
+	n = { 3,{}, "TTTT" };
+	pattern.AddNode(n);
 
-	for (auto i : net.Nodes) {
-		for (auto j : net.Nodes) {
-			if (path_table[i.first].find(j.first) != path_table[i.first].end()) {
-				if (path_table[i.first][j.first].size() > 0) {
-					for (int k = 0; k < path_table[i.first][j.first].size(); k++) {
-						cout << path_table[i.first][j.first][k].length << ",";
-					}
-					cout << "  ";
-				}
-				else {
-					cout << 0 << "  ";
-				}
-			}
-			else {
-				cout << 0 << "  ";
-			}
-		}
-		cout << endl;
-	}
-	
-	double end_time = clock();
+	Net random_net = generate_net(10);
+	Net random_pattern = generate_pattern(4);
 
-
-	vector<int> vec = vector<int>();
-
-	vec.push_back(0);
-	vec.push_back(1);
-	vec.push_back(2);
-	vec.push_back(3);
-	vec.push_back(4);
+	random_net.print();
 
 	cout << endl << endl;
 
-	for (int i = 0; i < vec.size(); ++i) {
-		if (vec[i] > 2) {
-			vec.erase(vec.begin() + i);
-			--i;
-		}
-	}
+	random_pattern.print();
+	cout << endl << endl;
 
-	for (int i = 0; i < vec.size(); ++i) {
-		cout << vec[i] << endl;
+	set<alignment> alignments = path_alignment(random_pattern, random_net);
+
+	double end_time = clock();
+
+	for (alignment alig : alignments) {
+		alig.print();
 	}
 
 	cout << endl << "time: " << end_time - begin_time << endl;
@@ -76,6 +57,51 @@ int main()
 	system("pause");
 	return 0;
 }
+
+//проверка таблицы
+/*n = { 1, {2}, "AAAA" };
+net.AddNode(n);
+n = { 2, {4}, "CCCC" };
+net.AddNode(n);
+n = { 3, {4}, "TTTT" };
+net.AddNode(n);
+n = { 4, {5}, "TTTT" };
+net.AddNode(n);
+n = { 5, {6, 7}, "CCCC" };
+net.AddNode(n);
+n = { 6, {4}, "TTTT" };
+net.AddNode(n);
+n = { 7, {}, "TTTT" };
+net.AddNode(n);
+
+fill_path_table(net);
+
+for (auto i : net.Nodes) {
+for (auto j : net.Nodes) {
+if (path_table[i.first].find(j.first) != path_table[i.first].end()) {
+if (path_table[i.first][j.first].size() > 0) {
+for (int k = 0; k < path_table[i.first][j.first].size(); k++) {
+cout << path_table[i.first][j.first][k].length << ",";
+}
+cout << "  ";
+}
+else {
+cout << 0 << "  ";
+}
+}
+else {
+cout << 0 << "  ";
+}
+}
+cout << endl;
+}
+
+cout << endl;
+
+for (WayStruct way : path_table[2][5]) {
+way.print();
+}*/
+
 
 /*alignment alig;
 

@@ -14,7 +14,6 @@ double score_alignment(alignment& const alig, Net& const pattern, Net& const net
 {
 	double result = 0;
 
-	fill_subst_matr();
 	//просто сумма выравнивания последовательностей
 	for (pair<int,vector<int>> i : alig.Nodes)
 		for (int j: i.second)
@@ -99,5 +98,44 @@ double score_alignment(alignment& const alig, Net& const pattern, Net& const net
 	//check! хорошо - когда в подграфе есть путь из всех вершин, с которыми выровнено начало ребра паттерна во все вершины, с которыми выровнен конец ребра паттерна. Чем чаще это не так - тем хуже
 	//хорошо - когда подграф вырождается в путь
 	//хорошо - когда в подграфе есть вершина, из которой можно добраться до всех вершин в подграфе
-	//что с лишними ребрами?
+}
+
+double score_alignment_for_path(alignment& const alig, Net& const pattern, Net& const net) {
+	double result = 0;
+	//просто сумма выравнивания последовательностей
+	for (pair<int, vector<int>> i : alig.Nodes)
+		for (int j : i.second)
+			result += local_alignment_seq(pattern.Nodes[i.first].sequence, net.Nodes[j].sequence);
+
+	{
+		unordered_map<int, int> pattern_node_stretching, net_node_stretching, pattern_edge_stretching;
+
+		find_stretching(alig, pattern_node_stretching, net_node_stretching, pattern_edge_stretching);
+
+		for (pair<int, int> x : pattern_node_stretching)
+		{
+			if (x.second == 0)
+				result -= 2;
+			if (x.second > 1)
+				result -= x.second;
+		}
+
+		for (pair<int, int> x : net_node_stretching)
+		{
+			if (x.second == 0)
+				result -= 2;
+			if (x.second > 1)
+				result -= x.second;
+		}
+
+		for (pair<int, int> x : pattern_edge_stretching)
+		{
+			if (x.second == 0)
+				result -= 2;
+			if (x.second > 1)
+				result -= x.second;
+		}
+	}
+
+	return result;
 }

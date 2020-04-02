@@ -120,6 +120,7 @@
     <ClInclude Include="dropped_nodes.h" />
     <ClInclude Include="exhaustive_search.h" />
     <ClInclude Include="lenear_alignment.h" />
+    <ClInclude Include="random_net_generator.h" />
     <ClInclude Include="score_alignment.h" />
     <ClInclude Include="seq_alignment.h" />
     <ClInclude Include="stretching.h" />

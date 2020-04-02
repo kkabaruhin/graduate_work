@@ -9,6 +9,7 @@ using namespace std;
 //штраф дл€ выравнивани€ последовательностей за несовподение символов
 double g = -2;
 unordered_map<char, unordered_map<char, double>> nucl_substr_matrix;
+unordered_map<string, unordered_map<string, double>> scores_seq_alig;
 
 void fill_subst_matr()
 {
@@ -29,10 +30,13 @@ double p(char c1, char c2)
 	return nucl_substr_matrix[c1][c2];
 }
 
-//локальне сравнение последовательностей. »щем вхождение seq2 в seq1
-double local_alignment_seq(string& const seq1, string& const seq2)
-{
+void prepare_table(Net net, Net pattern) {
 	fill_subst_matr();
+	scores_seq_alig = unordered_map<string, unordered_map<string, double>>();
+}
+
+double find_new_seq_alig(string& const seq1, string& const seq2)
+{
 	vector<vector<double>> matr;
 	matr.resize(seq1.length() + 1);
 
@@ -69,4 +73,18 @@ double local_alignment_seq(string& const seq1, string& const seq2)
 		}
 
 	return matr[matr.size() - 1][matr[0].size() - 1];
+}
+
+//локальне сравнение последовательностей. »щем вхождение seq2 в seq1
+double local_alignment_seq(string& const seq1, string& const seq2)
+{
+	if (scores_seq_alig.count(seq1) > 0) {
+		if (scores_seq_alig[seq1].count(seq2) > 0) {
+			return scores_seq_alig[seq1][seq2];
+		}
+	}
+	double result = find_new_seq_alig(seq1, seq2);
+
+	scores_seq_alig[seq1][seq2] = result;
+	return result;
 }

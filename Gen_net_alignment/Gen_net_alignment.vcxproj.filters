@@ -42,6 +42,9 @@
     <ClInclude Include="lenear_alignment.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="random_net_generator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
