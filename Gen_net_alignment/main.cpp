@@ -7,34 +7,9 @@ int main()
 {
 	srand(time(0));
 	double begin_time = clock();
-	Net net = Net();
-	Net pattern = Net();
-	Node n;
 
-	n = { 1,{ 2 }, "AAAA" };
-	net.AddNode(n);
-	n = { 2,{ 4 }, "CCCC" };
-	net.AddNode(n);
-	n = { 3,{ 4 }, "TTTT" };
-	net.AddNode(n);
-	n = { 4,{ 5 }, "TTTT" };
-	net.AddNode(n);
-	n = { 5,{ 6, 7 }, "CCCC" };
-	net.AddNode(n);
-	n = { 6,{ }, "TTTT" };
-	net.AddNode(n);
-	n = { 7,{}, "TTTT" };
-	net.AddNode(n);
-
-	n = { 1,{ 2 }, "AAAA" };
-	pattern.AddNode(n);
-	n = { 2,{ 3 }, "CCCC" };
-	pattern.AddNode(n);
-	n = { 3,{}, "TTTT" };
-	pattern.AddNode(n);
-
-	Net random_net = generate_net(10);
-	Net random_pattern = generate_pattern(4);
+	Net random_net = generate_net(12);
+	Net random_pattern = generate_pattern(6);
 
 	random_net.print();
 

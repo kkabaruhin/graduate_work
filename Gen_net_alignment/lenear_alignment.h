@@ -156,9 +156,31 @@ void fill_path_table(Net net) {
 
 }
 
-//возвращает разность между длинами оставшихся участков путей патерна и сети
-int count_of_stretching(WayStruct& const way, int pattern_lenght, int current_node) {
-	return abs((way.length - current_node) - pattern_lenght);
+//возвращает количество различных растяжений текущего выравнивания
+int count_of_stretching(alignment& const alig) {
+	unordered_map<int, int> pattern_node_stretching, net_node_stretching, pattern_edge_stretching;
+
+	find_stretching(alig, pattern_node_stretching, net_node_stretching, pattern_edge_stretching);
+	int result = 0;
+
+	for (pair<int, int> x : pattern_node_stretching)
+	{
+		if (x.second > 1)
+			result += x.second;
+	}
+
+	for (pair<int, int> x : net_node_stretching)
+	{
+		if (x.second > 1)
+			result += x.second;
+	}
+
+	for (pair<int, int> x : pattern_edge_stretching)
+	{
+		if (x.second > 1)
+			result += x.second;
+	}
+	return result;
 }
 
 //по имеющимся пути и длине паттерна подбирает оптимальное количество проходов по циклам
@@ -211,7 +233,8 @@ set<alignment> alignment_one_node( WayStruct& const path,  WayStruct& const patt
 
 	set<alignment> result = set<alignment>();
 
-	if (count_of_stretching(path, pattern.length - curren_node_pattern, current_node_path) > (pattern.length - curren_node_pattern) + 1) {
+	if (count_of_stretching(prev_alig) > (current_node_path + curren_node_pattern) / 6.0 && 
+		current_node_path + curren_node_pattern > log2(pattern.length)) {
 		return result;
 	}
 
@@ -280,12 +303,12 @@ set<alignment> alignment_one_node( WayStruct& const path,  WayStruct& const patt
 	//	result.insert(new_alignments.begin(), new_alignments.end());
 	//}
 	//5)следующая вершина паттерна = текущая вершина паттерна. Следующая вершина сети без изменений
-	if (f != 6) {
+	/*if (f != 6) {
 		new_alignments = alignment_one_node(path, pattern, current_node_path + 1, curren_node_pattern, work_alig, net, pattern_net, 5);
 		if (!new_alignments.empty()) {
 			result.insert(new_alignments.begin(), new_alignments.end());
 		}
-	}
+	}*/
 	//6)следующая вершина паттерна без изменений. Cледующая вершина сети = текущая вершина сети
 	if (f != 5) {
 		new_alignments = alignment_one_node(path, pattern, current_node_path, curren_node_pattern + 1, work_alig, net, pattern_net, 6);
@@ -324,7 +347,7 @@ set<alignment> path_alignment(Net& const pattern, Net& const net) {
 		for (int j : nodesNumbers) {
 			for (int k = 0; k < path_table[i][j].size(); k++) {
 				ways.insert(find_optimize_topology(i, j, k, path_table[i][j][k], pattern.Nodes.size() - 1));
-				if (ways.size() > 30) {
+				if (ways.size() > 20) {
 					ways.erase(ways.begin());
 				}
 			}

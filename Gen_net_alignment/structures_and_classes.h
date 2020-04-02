@@ -186,12 +186,12 @@ struct alignment
 
 		for (int i = 0; i < Edges.size(); i++)
 		{
-			cout << "from: " << i << " to:" << endl;
+			cout << "__";
+			cout << "endge number: " << i << " alig with:" << endl;
 			for (edge e : Edges[i])
 			{
 				e.print();
 			}
-			cout << "___________";
 		}
 		cout << "___________________________________________________________" << endl;
 	}

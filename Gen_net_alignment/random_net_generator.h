@@ -5,7 +5,7 @@
 string generate_random_seq() {
 	string result;
 
-	int length = 5 + rand() % 15;
+	int length = 15 + rand() % 5;
 
 	for (int i = 0; i < length; ++i) {
 		char c;
