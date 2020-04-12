@@ -58,6 +58,17 @@ vector<int> generate_adjacent_nodes(int current_node, int count_of_nodes) {
 	return result;
 }
 
+vector<int> generate_full_adjacent_nodes(int current_node, int count_of_nodes) {
+	vector<int> result = vector<int>();
+
+	for (int i = 0; i < count_of_nodes; ++i) {
+		if (i != current_node)
+			result.push_back(i);
+	}
+
+	return result;
+}
+
 Net generate_pattern(int count_of_nodes = 0) {
 	Net result = Net();
 
@@ -82,6 +93,15 @@ Net generate_pattern(int count_of_nodes = 0) {
 	return result;
 }
 
+vector<Net> generate_patterns_vector(int count_of_patterns, int count_of_nodes) {
+	vector<Net> result = vector<Net>();
+
+	for (int i = 0; i < count_of_patterns; ++i) {
+		result.push_back(generate_pattern(count_of_nodes));
+	}
+	return result;
+}
+
 Net generate_net(int count_of_nodes = 0) {
 	Net result = Net();
 
@@ -95,6 +115,21 @@ Net generate_net(int count_of_nodes = 0) {
 		string seq = generate_random_seq();
 		vector<int> adjacent_nodes = generate_adjacent_nodes(i, count_of_nodes);
 	
+		n = { i, adjacent_nodes,  seq };
+		result.AddNode(n);
+	}
+
+	return result;
+}
+
+Net generate_full_net(int count_of_nodes) {
+	Net result = Net();
+	Node n;
+
+	for (int i = 0; i < count_of_nodes; ++i) {
+		string seq = generate_random_seq();
+		vector<int> adjacent_nodes = generate_full_adjacent_nodes(i, count_of_nodes);
+
 		n = { i, adjacent_nodes,  seq };
 		result.AddNode(n);
 	}

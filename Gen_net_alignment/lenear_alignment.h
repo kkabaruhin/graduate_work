@@ -1,11 +1,20 @@
 #pragma once
 #include"score_alignment.h"
 #include<math.h>
+#include<ctime>
+#include"random_net_generator.h"
+#include<algorithm>
+
+#include<ppl.h>
+using namespace concurrency;
 
 //таблица. ¬ €чейке [i,j] наход€тс€ все пути из i в j
 unordered_map<int, unordered_map<int, vector<WayStruct>>> path_table;
 vector<WayStruct> Cycles;
 set<int> nodesNumbers;
+
+//множитель штрафов
+double fine_coefficient = 0.9;
 
 unordered_map<int, vector<int>> find_entry_points(int line, int column, int way_index) {
 	unordered_map<int, vector<int>> result = unordered_map<int, vector<int>>();
@@ -43,9 +52,6 @@ void add_entry_points() {
 void remove_extra_paths() {
 	for (auto lines : path_table) {
 		for (int k : nodesNumbers) {
-			if (lines.first == k) {
-				continue;
-			}
 			if (path_table[lines.first][k].empty()) {
 				continue;
 			}
@@ -59,7 +65,7 @@ void remove_extra_paths() {
 	}
 }
 
-void fill_path_table(Net net) {
+/*void fill_path_table(Net net) {
 	path_table = unordered_map<int, unordered_map<int, vector<WayStruct>>>();
 	Cycles = vector<WayStruct>();
 	bool find_new_cyrcle = false;
@@ -85,7 +91,7 @@ void fill_path_table(Net net) {
 
 		//если есть путь из A в B, а из B путь в C, то из A есть путь в C
 		for (int i : new_ways) { //проходим по тем строкам таблицы, в которые ведут новые пути из kv.first
-			if (i > index) {
+			if (i >= index) {
 				continue;
 			}
 
@@ -154,6 +160,59 @@ void fill_path_table(Net net) {
 
 	add_entry_points();
 
+}*/
+
+vector<WayStruct> find_cell_value(int start, int finish, vector<int> current_way, unordered_map<int, bool> visit, Net& const net) {
+	vector<WayStruct> result = vector<WayStruct>();
+	int current_node = current_way[current_way.size() - 1];
+
+	if (current_node == finish && current_way.size() > 1) {//найден новый путь
+		result.push_back(WayStruct(current_way));
+		return result;
+	}
+
+	for (int i : net.Nodes[current_node].adjacent_nodes) {
+		if (!visit[i] || (i == finish && start == finish)) {
+			visit[i] = true;
+			current_way.push_back(i);
+			
+			vector<WayStruct> new_ways = find_cell_value(start, finish, current_way, visit, net);
+
+			visit[i] = false;
+			current_way.erase(--current_way.end());
+			
+			for (WayStruct w : new_ways) {
+				result.push_back(w);
+			}
+		}
+	}
+	return result;
+}
+
+void fill_path_table(Net& const net) {
+	path_table = unordered_map<int, unordered_map<int, vector<WayStruct>>>();
+	Cycles = vector<WayStruct>();
+
+	nodesNumbers = set<int>();
+	for (auto kv : net.Nodes) {
+		nodesNumbers.insert(kv.first);
+	}
+
+	vector<WayStruct> cell = vector<WayStruct>();
+	unordered_map<int, bool> visit = unordered_map<int, bool>();
+	vector<int> current_way = vector<int>();
+
+	//поиск всех путей из вершины i в вершину j
+	for (int i : nodesNumbers) {
+		visit.clear();
+		current_way.clear();
+		visit[i] = true;
+		current_way.push_back(i);
+		parallel_for_each(nodesNumbers.begin(), nodesNumbers.end(), [&](int j) {
+			path_table[i][j] = find_cell_value(i, j, current_way, visit, net);
+		});
+	}
+	
 }
 
 //возвращает количество различных раст€жений текущего выравнивани€
@@ -225,23 +284,22 @@ WayStruct from_net_to_way( Net& const net) {
 	return result;
 }
 
-set<alignment> alignment_one_node( WayStruct& const path,  WayStruct& const pattern,
-								  int current_node_path, int curren_node_pattern, alignment& const prev_alig,
-								  Net& const net, Net& const pattern_net,
-								  int f) {
+alignment alignment_one_node(WayStruct& const path, WayStruct& const pattern,
+	int current_node_path, int curren_node_pattern, alignment& const prev_alig,
+	Net& const net, Net& const pattern_net,
+	int number_of_allowable_stretch) {
 	//если f == 1, то функци€ была вызвана способом 1, если 2, то спобом 2 и тд
 
-	set<alignment> result = set<alignment>();
+	alignment result = alignment(pattern.length);
 
-	if (count_of_stretching(prev_alig) > (current_node_path + curren_node_pattern) / 6.0 && 
+	if (count_of_stretching(prev_alig) > (current_node_path + curren_node_pattern) / 6.0 &&
 		current_node_path + curren_node_pattern > log2(pattern.length)) {
 		return result;
 	}
 
 	if (current_node_path >= path.way.size() || curren_node_pattern >= pattern.way.size()) {
-		alignment res = prev_alig;
-		res.score = score_alignment_for_path(res, pattern_net, net);
-		result.insert(res);
+		result = prev_alig;
+		result.score = score_alignment_for_path(result, pattern_net, net);
 		return result;
 	}
 
@@ -266,25 +324,27 @@ set<alignment> alignment_one_node( WayStruct& const path,  WayStruct& const patt
 	//I текущ€€ вершина паттерна ¬џ–ќ¬Ќ≈Ќј с текущей вершиной пути
 	//1) следующие вершины путей выравниваютс€ друг с другом
 	work_alig.Nodes[pattern.way[curren_node_pattern]].push_back(path.way[current_node_path]);
-	set<alignment> new_alignments = alignment_one_node(path, pattern, current_node_path + 1, curren_node_pattern + 1, work_alig, net, pattern_net, 1);
-	if (!new_alignments.empty()) {
-		result.insert(new_alignments.begin(), new_alignments.end());
+	alignment new_alignment = alignment_one_node(path, pattern, current_node_path + 1, curren_node_pattern + 1, work_alig, net, pattern_net, number_of_allowable_stretch);
+	if (result.score < new_alignment.score) {
+		result = new_alignment;
 	}
 
 	work_alig.Nodes[pattern.way[curren_node_pattern]].erase(find(work_alig.Nodes[pattern.way[curren_node_pattern]].begin(),
-																 work_alig.Nodes[pattern.way[curren_node_pattern]].end(),
-																 path.way[current_node_path]));
+		work_alig.Nodes[pattern.way[curren_node_pattern]].end(),
+		path.way[current_node_path]));
 
 	//2)следующа€ вершина паттерна = текуща€ вершина паттерна. —ледующа€ вершина сети без изменений
-	work_alig.Nodes[pattern.way[curren_node_pattern]].push_back(path.way[current_node_path]);
-    new_alignments = alignment_one_node(path, pattern, current_node_path + 1, curren_node_pattern, work_alig, net, pattern_net, 2);
-	if (!new_alignments.empty()) {
-		result.insert(new_alignments.begin(), new_alignments.end());
+	if (number_of_allowable_stretch > 0) {
+		work_alig.Nodes[pattern.way[curren_node_pattern]].push_back(path.way[current_node_path]);
+		new_alignment = alignment_one_node(path, pattern, current_node_path + 1, curren_node_pattern, work_alig, net, pattern_net, number_of_allowable_stretch - 1);
+		if (result.score < new_alignment.score) {
+			result = new_alignment;
+		}
+		work_alig.Nodes[pattern.way[curren_node_pattern]].erase(find(work_alig.Nodes[pattern.way[curren_node_pattern]].begin(),
+			work_alig.Nodes[pattern.way[curren_node_pattern]].end(),
+			path.way[current_node_path]));
 	}
-	work_alig.Nodes[pattern.way[curren_node_pattern]].erase(find(work_alig.Nodes[pattern.way[curren_node_pattern]].begin(),
-																 work_alig.Nodes[pattern.way[curren_node_pattern]].end(),
-																 path.way[current_node_path]));
-
+	/*
 	//3)следующа€ вершина паттерна без изменений. Cледующа€ вершина сети = текуща€ вершина сети
 	work_alig.Nodes[pattern.way[curren_node_pattern]].push_back(path.way[current_node_path]);
 	new_alignments = alignment_one_node(path, pattern, current_node_path, curren_node_pattern + 1, work_alig, net, pattern_net, 3);
@@ -294,7 +354,7 @@ set<alignment> alignment_one_node( WayStruct& const path,  WayStruct& const patt
 	work_alig.Nodes[pattern.way[curren_node_pattern]].erase(find(work_alig.Nodes[pattern.way[curren_node_pattern]].begin(),
 																 work_alig.Nodes[pattern.way[curren_node_pattern]].end(),
 																 path.way[current_node_path]));
-
+*/
 	//II текущ€€ вершина паттерна Ќ≈ ¬џ–ќ¬Ќ≈Ќј с текущей вершиной пути
 
 	//4) следующие вершины путей выравниваютс€ друг с другом
@@ -310,21 +370,54 @@ set<alignment> alignment_one_node( WayStruct& const path,  WayStruct& const patt
 		}
 	}*/
 	//6)следующа€ вершина паттерна без изменений. Cледующа€ вершина сети = текуща€ вершина сети
-	if (f != 5) {
-		new_alignments = alignment_one_node(path, pattern, current_node_path, curren_node_pattern + 1, work_alig, net, pattern_net, 6);
+
+		/*new_alignments = alignment_one_node(path, pattern, current_node_path, curren_node_pattern + 1, work_alig, net, pattern_net, 6);
 		if (!new_alignments.empty()) {
 			result.insert(new_alignments.begin(), new_alignments.end());
-		}
-	}
+		}*/
 
-	while(result.size() > 3) {
-		result.erase(result.begin());
-	}
 	return result;
 }
 
+/*void fill_one_line_in_table(int line_index, int current_pattern_node_index,
+	unordered_map<int, unordered_map<int, double>>& table, 
+	WayStruct& const path, WayStruct& const pattern_way,
+	Net& const net, Net& const pattern,
+	int number_of_allowable_stretch) {
+
+	for (int i = line_index; i < line_index + number_of_allowable_stretch; ++i) {
+		table[line_index][i] = table[line_index][i - 1] * fine_coefficient +
+			local_alignment_seq(net.Nodes[path.way[i]].sequence, pattern.Nodes[pattern_way.way[current_pattern_node_index]].sequence) * pow(fine_coefficient, i - line_index);
+	}
+}
+
+int find_index_max_in_line(int line, int number_of_allowable_stretch, unordered_map<int, unordered_map<int, double>>& const table) {
+	int result = line;
+
+	for (int i = line; i < line + number_of_allowable_stretch; ++i) {
+		if (table[line][i] > table[line][result])
+			result = i;
+	}
+}
+
+alignment new_alignment_path(WayStruct& const path, WayStruct& const pattern_way,
+	Net& const net, Net& const pattern) {
+	alignment result = alignment(pattern_way.length);
+	int number_of_allowable_stretch = path.length - pattern_way.length;
+
+	unordered_map<int, unordered_map<int, double>> prev_table = unordered_map<int, unordered_map<int, double>>();
+	unordered_map<int, unordered_map<int, double>> current_table = unordered_map<int, unordered_map<int, double>>();
+
+	for (int current_pattern_index = 0; current_pattern_index < pattern_way.length; current_pattern_index++) {
+
+		fill_one_line_in_table(current_pattern_index, current_pattern_index, current_table, path, pattern_way, net, pattern, number_of_allowable_stretch);
+		int index_max_in_line = find_index_max_in_line(current_pattern_index, number_of_allowable_stretch, current_table);
+
+	}
+}*/
+
 //по заданному пути и паттерну возвращает оптимальное выравнивание с этим путем
-set<alignment> find_best_alignment(WayPriority& const path_link, Net& const net, Net& const pattern) {
+alignment find_best_alignment(WayPriority& const path_link, Net& const net, Net& const pattern) {
 	//выровн€ть текущую вершину паттерна оптимально и рекурсивно запустить дл€ следующей
 	//после этого выровн€ть текущую вершину менее оптимальными способами и дл€ всех запустить дл€ следующей вершины
 	WayStruct path = path_link.way;
@@ -332,36 +425,90 @@ set<alignment> find_best_alignment(WayPriority& const path_link, Net& const net,
 	WayStruct pattern_way = from_net_to_way(pattern);
 	alignment start_alig = alignment(pattern.Edges.size());
 
-	return alignment_one_node(path, pattern_way, 0, 0, start_alig, net, pattern, 0);
+	return alignment_one_node(path, pattern_way, 0, 0, start_alig, net, pattern, path.length - pattern_way.length);
 }
 
-set<alignment> path_alignment(Net& const pattern, Net& const net) {
-	prepare_table(net, pattern);
-	fill_path_table(net);
-
-	set<alignment> result = set<alignment>();
+alignment path_alignment(Net& const pattern, Net& const net) {
+	alignment result = alignment(pattern.Nodes.size());
 	set<WayPriority> ways = set<WayPriority>();
 
 	//пути без циклов
 	for (int i : nodesNumbers) {
 		for (int j : nodesNumbers) {
 			for (int k = 0; k < path_table[i][j].size(); k++) {
-				ways.insert(find_optimize_topology(i, j, k, path_table[i][j][k], pattern.Nodes.size() - 1));
-				if (ways.size() > 20) {
-					ways.erase(ways.begin());
+				if (path_table[i][j][k].length >= pattern.Nodes.size()) {
+					ways.insert(find_optimize_topology(i, j, k, path_table[i][j][k], pattern.Nodes.size() - 1));
+					if (ways.size() > net.Nodes.size()*net.Nodes.size()*log2(net.Nodes.size())) {
+						ways.erase(ways.begin());
+					}
 				}
 			}
 		}
 	}
 
 	for (WayPriority w : ways) {
-		set<alignment> new_alig = find_best_alignment(w, net, pattern);
-		result.insert(new_alig.begin(), new_alig.end());
-
-		while (result.size() > 20) {
-			result.erase(result.begin());
+		alignment new_alig = find_best_alignment(w, net, pattern);
+		if (result.score < new_alig.score) {
+			result = new_alig;
 		}
+
 	}
 
 	return result;
+}
+
+vector<alignment> start_algorithm(vector<Net>& const patterns, Net& const net) {
+	//fill_path_table(net);
+	prepare_table();
+
+	vector<alignment> result = vector<alignment>();
+
+	parallel_for(size_t(0), patterns.size(), [&](int i) {
+		result.push_back(path_alignment(patterns[i], net));
+	}
+	);
+	//for (int i = 0; i < patterns.size(); ++i) {
+	//	result.push_back(path_alignment(patterns[i], net));
+	//}
+
+	return result;
+}
+
+void start_test_alignment(int pattern_count, int pattern_len, int net_len) {
+	Net random_net = generate_net(net_len);
+	vector<Net> random_patterns = generate_patterns_vector(pattern_count, pattern_len);
+
+	random_net.print();
+
+	cout << endl << endl;
+
+	for (int i = 0; i < pattern_count; i++) {
+		cout << "pattern number " << i << endl;
+		random_patterns[i].print();
+	}
+	
+	double table_begin_clock = clock();
+	fill_path_table(random_net);
+	double table_end_clock = clock();
+
+	for (int i = 0; i < net_len; ++i) {
+		for (int j = 0; j < net_len; ++j) {
+			cout << path_table[i][j].size() << " ";
+		}
+		cout << endl;
+	}
+	double begin_time = clock();
+
+	vector<alignment> alignments = start_algorithm(random_patterns, random_net);
+
+	double end_time = clock();
+
+	for (int i = 0; i < pattern_count; ++i) {
+		cout << "Alignment " << i << " pattern" << endl;
+		alignments[i].print();
+	}
+
+
+	cout << endl << "time table: " << table_end_clock - table_begin_clock << endl;
+	cout << endl << "time alig: " << end_time - begin_time << endl;
 }

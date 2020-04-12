@@ -121,6 +121,7 @@ struct alignment
 		this->Edges = vector<vector<edge>>();
 
 		this->Edges.resize(pattern_length, vector<edge>());
+		this->score = 0;
 	}
 
 	friend bool operator<(const alignment& lv, const alignment& rv)
@@ -221,6 +222,11 @@ struct WayStruct {
 		this->entry_points = unordered_map<int, vector<int>>();
 	}
 
+	WayStruct(vector<int>& const in) {
+		this->way = in;
+		this->length = in.size();
+	}
+
 	void addNode(int index) {
 		this->way.push_back(index);
 		this->length++;
@@ -249,6 +255,9 @@ struct WayStruct {
 
 		for (int i = 0; i < way.size(); ++i) {
 			if (data.count(way[i]) > 0) {
+				if (i == way.size() - 1 && way[i] == way[0]) {
+					continue;
+				}
 				return true;
 			}
 			else {

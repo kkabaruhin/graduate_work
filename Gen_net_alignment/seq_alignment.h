@@ -30,7 +30,7 @@ double p(char c1, char c2)
 	return nucl_substr_matrix[c1][c2];
 }
 
-void prepare_table(Net net, Net pattern) {
+void prepare_table() {
 	fill_subst_matr();
 	scores_seq_alig = unordered_map<string, unordered_map<string, double>>();
 }
