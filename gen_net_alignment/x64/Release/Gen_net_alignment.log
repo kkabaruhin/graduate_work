@@ -1,0 +1,134 @@
+﻿  main.cpp
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(58): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(84): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(98): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(225): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(227): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(273): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\structures_and_classes.h(293): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\seq_alignment.h(38): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\seq_alignment.h(79): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\connectivity_components.h(29): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\dropped_nodes.h(28): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\dropped_nodes.h(42): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\dropped_nodes.h(95): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\dropped_nodes.h(97): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\dropped_nodes.h(117): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\count_unavailable_nodes.h(18): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\count_unavailable_nodes.h(32): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\count_unavailable_nodes.h(43): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\count_unavailable_nodes.h(84): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\count_unavailable_nodes.h(99): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\stretching.h(9): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\stretching.h(20): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\stretching.h(28): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\score_alignment.h(13): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\score_alignment.h(101): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\score_alignment.h(145): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(13): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(61): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(15): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(64): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(65): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(66): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\exhaustive_search.h(67): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(165): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(192): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(219): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(246): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(271): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(283): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(287): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(288): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(289): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(420): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(426): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(431): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(432): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(440): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(460): warning C4227: устаревший элемент: пропуск квалификаторов для ссылки
+c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\main.cpp(6): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2501): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2559): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::_Parallel_for_impl<_Index_type,_Function,const Concurrency::auto_partitioner&>(_Index_type,_Index_type,_Index_type,const _Function &,_Partitioner)"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>,
+              _Partitioner=const Concurrency::auto_partitioner &
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2633): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::parallel_for<_Index_type,_Function,const Concurrency::auto_partitioner&>(_Index_type,_Index_type,_Index_type,const _Function &,_Partitioner)"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>,
+              _Partitioner=const Concurrency::auto_partitioner &
+          ]
+  c:\users\кирилл\onedrive\научая работа\выравнивание сетей через ребра\graduate_work\gen_net_alignment\lenear_alignment.h(469): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::parallel_for<::size_t,start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>>(_Index_type,_Index_type,const _Function &,const Concurrency::auto_partitioner &)"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>
+          ]
+c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(1796): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(1795): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2180): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::_Parallel_chunk_helper_invoke<_Random_iterator,_Index_type,_Function,false>::_Invoke(const _Random_iterator &,_Index_type &,const _Function &)"
+          with
+          [
+              _Random_iterator=::size_t,
+              _Index_type=_Diff_type,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2180): note: выполняется компиляция ссылки на экземпляр шаблон класс "Concurrency::_Parallel_chunk_helper_invoke<_Random_iterator,_Index_type,_Function,false>"
+          with
+          [
+              _Random_iterator=::size_t,
+              _Index_type=_Diff_type,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2158): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(128): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::_Parallel_chunk_helper<_Index_type,_Index_type,_Function,Concurrency::auto_partitioner,false>::operator ()(void) const"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(137): note: выполняется компиляция ссылки на экземпляр шаблон класс "Concurrency::_Parallel_chunk_helper<_Index_type,_Index_type,_Function,Concurrency::auto_partitioner,false>"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2384): note: выполняется компиляция ссылки на экземпляр шаблон класс "Concurrency::task_handle<_Worker_class>"
+          with
+          [
+              _Worker_class=_Worker_class
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2449): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::_Parallel_chunk_impl<_Worker_class,_Index_type,_Diff_type,_Function,const Concurrency::auto_partitioner&>(const _Random_iterator &,_Index_type,const _Index_type &,const _Function &,_Partitioner)"
+          with
+          [
+              _Index_type=::size_t,
+              _Diff_type=_Diff_type,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>,
+              _Random_iterator=::size_t,
+              _Partitioner=const Concurrency::auto_partitioner &
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2505): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::_Parallel_for_partitioned_impl<_Index_type,_Diff_type,_Function>(_Index_type,_Diff_type,_Diff_type,const _Function &,const Concurrency::auto_partitioner &)"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>,
+              _Diff_type=_Diff_type
+          ]
+  c:\yctahobku\visual studio\vc\tools\msvc\14.13.26128\include\ppl.h(2559): note: выполняется компиляция ссылки на экземпляр шаблон функции "void Concurrency::_Parallel_for_impl<_Index_type,_Function,const Concurrency::auto_partitioner&>(_Index_type,_Index_type,_Index_type,const _Function &,_Partitioner)"
+          with
+          [
+              _Index_type=::size_t,
+              _Function=start_algorithm::<lambda_3a6abf7acd6098f7988479d26c6d100a>,
+              _Partitioner=const Concurrency::auto_partitioner &
+          ]
+  Создание кода
+  4 of 3782 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  Gen_net_alignment.vcxproj -> C:\Users\кирилл\OneDrive\научая работа\Выравнивание сетей через ребра\graduate_work\gen_net_alignment\x64\Release\Gen_net_alignment.exe

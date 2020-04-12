@@ -438,7 +438,7 @@ alignment path_alignment(Net& const pattern, Net& const net) {
 			for (int k = 0; k < path_table[i][j].size(); k++) {
 				if (path_table[i][j][k].length >= pattern.Nodes.size()) {
 					ways.insert(find_optimize_topology(i, j, k, path_table[i][j][k], pattern.Nodes.size() - 1));
-					if (ways.size() > net.Nodes.size()*net.Nodes.size()*log2(net.Nodes.size())) {
+					if (ways.size() > net.Nodes.size()*log2(net.Nodes.size())) {
 						ways.erase(ways.begin());
 					}
 				}
