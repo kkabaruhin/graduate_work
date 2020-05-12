@@ -115,16 +115,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="clipping_linear.h" />
     <ClInclude Include="connectivity_components.h" />
     <ClInclude Include="count_unavailable_nodes.h" />
     <ClInclude Include="dropped_nodes.h" />
     <ClInclude Include="exhaustive_search.h" />
+    <ClInclude Include="inefficient_algorithms_linear.h" />
     <ClInclude Include="lenear_alignment.h" />
     <ClInclude Include="random_net_generator.h" />
     <ClInclude Include="score_alignment.h" />
     <ClInclude Include="seq_alignment.h" />
     <ClInclude Include="stretching.h" />
     <ClInclude Include="structures_and_classes.h" />
+    <ClInclude Include="tree_alignment.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

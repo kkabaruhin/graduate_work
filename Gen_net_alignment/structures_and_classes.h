@@ -3,6 +3,14 @@
 #include<iostream>
 #include<string>
 #include<unordered_map>
+#include<set>
+#include<queue>
+
+//множитель штрафов (устаревший)
+double fine_coefficient = 0.9;
+//штрафы дл€ раст€жений
+double etta = -10; //дл€ ребер паттерна
+double gamma = -15; //дл€ вершин сети
 
 using namespace std;
 
@@ -17,6 +25,7 @@ public:
 	}
 };
 
+//структура дл€ вершины
 struct Node
 {
 	int index;
@@ -51,6 +60,7 @@ struct Node
 	}
 };
 
+//структура дл€ ребра
 struct edge
 {
 	int from, to;
@@ -67,24 +77,23 @@ struct edge
 	}
 };
 
+//структура дл€ сети
 struct Net
 {
-	int root; //индекс корневой вершины
+	int root; //индекс корневой вершины (дл€ линейных паттернов и деревьев)
 	unordered_map<int, Node> Nodes;
 	vector<edge> Edges;
 	unordered_map<int, unordered_map<int, int>> New_edges; //по номерам вершин, образующим edge, возвращает индекс в основном векторе
 
 	Net()
 	{
-		//Nodes.reserve(512);
 		Edges.reserve(131072);//2^17
-		//New_edges.reserve(131072);
 	}
 
 	void AddNode(Node& const n)
 	{
 		if (Nodes.find(n.index) != Nodes.end())
-			throw Wrong_node_ex("ќдна сеть не может содержать две вершины с одинаковыми индексами. ѕроблемна€ вершина: ", n.index);
+			throw Wrong_node_ex("One network cannot contain two vertices with the same indices. Problem node: ", n.index);
 		else
 		{
 			Nodes[n.index] = n;
@@ -95,7 +104,7 @@ struct Net
 
 			for (int i = 0; i < n.adjacent_nodes.size(); i++) {
 				this->Edges.push_back({ n.index, n.adjacent_nodes[i] });
-				this->New_edges[(*(--Edges.end())).from][(*(--Edges.end())).to] = Edges.size() - 1;
+				this->New_edges[n.index][n.adjacent_nodes[i]] = Edges.size() - 1;
 			}
 		}
 	}
@@ -108,8 +117,17 @@ struct Net
 		for (int i = 0; i < Edges.size(); i++)
 			Edges[i].print();
 	}
+
+	//добавл€ет вершине с указанным индексом ребра к указанным вершинам
+	void add_edges(int node_index, vector<int> adiing_node_index_vector) {
+		for (int i : adiing_node_index_vector) {
+			Nodes[node_index].adjacent_nodes.push_back(i);
+			Edges.push_back({ node_index, i });
+		}
+	}
 };
 
+//структура дл€ выравнивани€
 struct alignment
 {
 	unordered_map<int, vector<int>> Nodes; //по индексу вершины паттерна возвращает коллекцию вершин в сети, с которыми та выровнена
@@ -117,11 +135,17 @@ struct alignment
 
 	double score;
 
+	alignment() {
+		this->Edges = vector<vector<edge>>();
+
+		this->score = INT_MIN;
+	}
+
 	alignment(int pattern_length) {
 		this->Edges = vector<vector<edge>>();
 
-		this->Edges.resize(pattern_length, vector<edge>());
-		this->score = 0;
+		this->Edges.resize(pattern_length - 1, vector<edge>());
+		this->score = INT_MIN;
 	}
 
 	friend bool operator<(const alignment& lv, const alignment& rv)
@@ -188,7 +212,7 @@ struct alignment
 		for (int i = 0; i < Edges.size(); i++)
 		{
 			cout << "__";
-			cout << "endge number: " << i << " alig with:" << endl;
+			cout << "edge number: " << i << " alig with:" << endl;
 			for (edge e : Edges[i])
 			{
 				e.print();
@@ -198,8 +222,7 @@ struct alignment
 	}
 };
 
-//структура дл€ хранени€ путей
-
+//структура дл€ хранени€ путей (дл€ линейных паттернов)
 struct WayStruct {
 	//список вершин, образующий путь
 	vector<int> way;
@@ -270,6 +293,7 @@ struct WayStruct {
 
 };
 
+//объединение двух путей
 WayStruct joinPath(WayStruct& const way1, WayStruct& const way2) {
 	WayStruct result = WayStruct();
 
@@ -282,19 +306,12 @@ WayStruct joinPath(WayStruct& const way1, WayStruct& const way2) {
 
 	result.entry_points = unordered_map<int, vector<int>>();
 
-	/*for (auto point : way2.entry_points) {
-		if (result.entry_points[point.first].empty()) {
-			result.entry_points[point.first] = vector<int>();
-		}
-		//индексы смещаютс€ и что делать с повтор€емостью информации?
-		result.entry_points[point.first + way1.length - 1].insert(result.entry_points[point.first].end(), point.second.begin(), point.second.end());
-	}*/
-
 	result.length = result.way.size();
 
 	return result;
 }
 
+//структура дл€ удобного хранени€ отсортированных "указателей" на WayStruct в таблицах
 struct WayPriority {
 	int column;
 	int line;
@@ -345,3 +362,122 @@ struct WayPriority {
 	}
 };
 
+//преобразует линейный паттерн в путь
+WayStruct from_net_to_way(Net& const net) {
+	WayStruct result = WayStruct();
+	Node current_node = net.Nodes[net.root];
+
+	while (true) {
+		result.addNode(current_node.index);
+
+		if (current_node.adjacent_nodes.empty()) {
+			break;
+		}
+		current_node = net.Nodes[*current_node.adjacent_nodes.begin()];
+	}
+	result.length = result.way.size();
+	return result;
+}
+
+//таблица. ¬ €чейке [i,j] наход€тс€ все пути из i в j (устаревший)
+unordered_map<int, unordered_map<int, vector<WayStruct>>> path_table;
+
+//устаревший)
+vector<WayStruct> Cycles;
+//хранит номера вершин в сети
+set<int> nodesNumbers;
+//в €чейке [i][j] путь минимальной длины из вершины i в вершину j
+unordered_map<int, unordered_map<int, WayStruct>> shortest_path_table;
+
+//алгоритм обхода графа в ширину дл€ заполнени€ shortest_path_table
+void bfs(int start_index, Net& const net) {
+	unordered_map<int, bool> visit = unordered_map<int, bool>();
+	unordered_map<int, int> who_pred = unordered_map<int, int>();//по индексу вершины возвращает индекс предшественника
+
+	queue<int> q;
+	q.push(start_index);
+	shortest_path_table[start_index][start_index] = WayStruct(start_index, start_index);
+
+	while (!q.empty()) {
+		int current_index = q.front();
+
+		for (int i : net.Nodes[current_index].adjacent_nodes) {
+			if (!visit[i]) {
+				q.push(i);
+				visit[i] = true;
+				who_pred[i] = current_index;
+			}
+		}
+
+		if (current_index == start_index) {
+			q.pop();
+			continue;
+		}
+
+		vector<int> reverse_way = vector<int>();
+
+		while (current_index != start_index) {
+			reverse_way.push_back(current_index);
+
+			current_index = who_pred[current_index];
+		}
+		reverse_way.push_back(start_index);
+
+		vector<int> normal_way = vector<int>();
+
+		for (int i = 0; i < reverse_way.size(); ++i) {
+			normal_way.push_back(reverse_way[reverse_way.size() - (i + 1)]);
+		}
+
+		WayStruct way = WayStruct(normal_way);
+
+		shortest_path_table[start_index][q.front()] = way;
+
+		q.pop();
+	}
+}
+
+//заполн€ет shortest_path_table
+void fill_shortest_path_table(Net& const net) {
+	nodesNumbers = set<int>();
+	for (auto kv : net.Nodes) {
+		nodesNumbers.insert(kv.first);
+	}
+
+	for (int i : nodesNumbers) {
+		bfs(i, net);
+	}
+}
+
+//хранит индекс узла в сети, с которым выровнена некотора€ вершина. » оценку этого выравнивани€
+struct ind_score {
+	int index;//индекс 
+	double score;
+
+	friend bool operator<(const ind_score& left, const ind_score& right) {
+		if (abs(left.score - right.score) > 0.0001)
+			return left.score < right.score;
+		else
+			return left.index < right.index;
+	}
+};
+
+//хранит комбинацию из p чисел, кодирующих какое-то выравнивание. » оценку этого выравнивани€ сверху, посчитанную как сумма (дл€ перебора с отсечением)
+struct Combination {
+	unordered_map<int, int> combination;
+	double score;
+
+	friend bool operator<(const Combination& left, const Combination& right) {
+		if (abs(left.score - right.score) > 0.0001)
+			return left.score < right.score;
+		else {
+			for (auto x : left.combination) {
+				if (x.second != right.combination.at(x.first)) {
+					return x.second < right.combination.at(x.first);
+				}
+			}
+		}
+		return false;
+			
+	}
+};

@@ -8,7 +8,6 @@
 //Алгоритм: bfs из каждой вершины первого вектора
 
 #include"structures_and_classes.h"
-#include<queue>
 
 class count_unavailable_nodes
 {

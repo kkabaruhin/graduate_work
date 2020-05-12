@@ -1,0 +1,6 @@
+pattern_count = 1; pattern_len = 3; net_len = 5; min_time = 7; max_time = 17; average_time = 11; 
+pattern_count = 1; pattern_len = 3; net_len = 10; min_time = 19; max_time = 38; average_time = 26; 
+
+pattern_count = 1; pattern_len = 6; net_len = 5; min_time = 3; max_time = 8; average_time = 5; 
+pattern_count = 1; pattern_len = 6; net_len = 10; min_time = 9; max_time = 22; average_time = 15; 
+

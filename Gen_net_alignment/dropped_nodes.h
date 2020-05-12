@@ -6,7 +6,6 @@
 //3)от каждого минимума вычитаем 1, суммируем и получаем ответ
 
 #include"structures_and_classes.h"
-#include<queue>
 
 using namespace std;
 
