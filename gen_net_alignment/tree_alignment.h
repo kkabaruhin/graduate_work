@@ -28,11 +28,12 @@ alignment join_trees(Net& const pattern, Net& const net, alignment& root_alig, a
 	int current_u = *result.Nodes[current_index].begin();
 	int child_u = *result.Nodes[child_index].begin();
 
-	
-	for (int k = 0; k < shortest_path_table[current_u][child_u].length - 1; ++k) {
-		result.Edges[pattern.New_edges[current_index][child_index]].
-			push_back(net.Edges[net.New_edges[shortest_path_table[current_u][child_u].way[k]]
-			[shortest_path_table[current_u][child_u].way[k + 1]]]);
+	if (current_u != child_u) {
+		for (int k = 0; k < shortest_path_table[current_u][child_u].length - 1; ++k) {
+			result.Edges[pattern.New_edges[current_index][child_index]].
+				push_back(net.Edges[net.New_edges[shortest_path_table[current_u][child_u].way[k]]
+					[shortest_path_table[current_u][child_u].way[k + 1]]]);
+		}
 	}
 
 	if (shortest_path_table[current_u][child_u].length == 0) {
@@ -57,6 +58,7 @@ alignment tree_alignment(Net& const pattern, Net& const net) {
 	//если visit[i] = true, то массив Si заполнен 
 	unordered_map<int, bool> visit = unordered_map<int, bool>(); 
 
+	//S[i][j] гхранит выравнивание дерева с корнем i, в котором вершина i выровнена с узлом j
 	unordered_map<int, unordered_map<int, alignment>> S = unordered_map<int, unordered_map<int, alignment>>();
 
 	while (!stack_of_nodes.empty()) {
@@ -186,13 +188,13 @@ void find_average_time_tree(int min_pattern_count, int min_pattern_len, int min_
 
 	for (int pattern_count = min_pattern_count; pattern_count < max_pattern_count + 1; ++pattern_count) {
 		for (int pattern_len = min_pattern_len; pattern_len < max_pattern_len + 1; pattern_len += delta_pattern) {
-			for (int net_len = min_net_len; net_len < max_net_len + 1; net_len += delta_net) {
+			for (int net_len = max(min_net_len, pattern_len); net_len < max_net_len + 1; net_len += delta_net) {
 				long max_time, min_time, average_time, sum_time;
 				max_time = min_time = average_time = sum_time = 0;
 				for (int test_index = 0; test_index < count_of_tests; ++test_index) {
-					vector<Net> patterns = patterns = generate_trees_vector(pattern_count, pattern_len, seq_len);
+					vector<Net> patterns = generate_trees_vector(pattern_count, pattern_len, seq_len);
 
-					Net net = generate_net(net_len, seq_len);
+					Net net = generate_T3_net(patterns[0], net_len, seq_len);
 
 					long begin_time = clock();
 

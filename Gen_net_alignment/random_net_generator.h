@@ -232,6 +232,8 @@ Net generate_T2_net(Net& const pattern, int count_of_nodes, int seq_len) {
 
 	int count_nodes_in_pattern = result.Nodes.size();
 
+	count_of_nodes = max(count_of_nodes, count_nodes_in_pattern);
+
 	for (int i = 0; i < count_of_nodes; ++i) {
 		vector<int> adjacent_nodes = generate_adjacent_nodes(i, count_of_nodes);
 		if (i < count_nodes_in_pattern) {//вершина пришла из паттерна, и ее нужно дополнить новыми ребрами
@@ -258,6 +260,7 @@ Net generate_T3_net(Net& const pattern, int count_of_nodes, int seq_len) {
 	Net result = pattern;
 
 	int count_nodes_in_pattern = result.Nodes.size();
+	count_of_nodes = max(count_of_nodes, count_nodes_in_pattern);
 	int count_adding_nodes = count_of_nodes - count_nodes_in_pattern; //количество вершин, которых нужно еще добавить
 	int current_index_adding_node = count_nodes_in_pattern; //текущий индекс вершины, которую нужно добавить
 
@@ -266,42 +269,45 @@ Net generate_T3_net(Net& const pattern, int count_of_nodes, int seq_len) {
 		//вершина пришла из паттерна, и ее нужно дополнить новыми ребрами и изменить генетическую последовательность
 		result.Nodes[i].sequence = change_seq(result.Nodes[i].sequence);
 
-		if (i < count_nodes_in_pattern - 1) {
-			int random = rand() % 10; //с вероятностью 0.1 между двумя вершинами паттерна появятся новые вершнины
+		if (!result.Nodes[i].adjacent_nodes.empty()) {
+			vector<int> adjacent_nodes_vec = result.Nodes[i].adjacent_nodes;
+			for (int k : adjacent_nodes_vec) {
+				int random = rand() % count_nodes_in_pattern;
 
-			if (random == 0) { // вставляем вершины
-				int count = 1 + rand() % (int)(log2(count_of_nodes));//количество вставляемых вершин не более log2 от общего количества вершин в сети
-				count = min(count, count_adding_nodes); //если мы больше можем вставлять вершины, то мы этого не делаем
+				if (random <= log2(count_nodes_in_pattern)) { // вставляем вершины
+					int count = 1 + rand() % (int)(log2(count_of_nodes));//количество вставляемых вершин не более log2 от общего количества вершин в сети
+					count = min(count, count_adding_nodes); //если мы больше не можем вставлять вершины, то мы этого не делаем
 
-				if (count > 0) {//удаляем связь между старыми вершинами и создаем новую
-					auto x = find(result.Nodes[i].adjacent_nodes.begin(), result.Nodes[i].adjacent_nodes.end(), i + 1);
-					result.Nodes[i].adjacent_nodes.erase(x);
-					result.Nodes[i].adjacent_nodes.push_back(current_index_adding_node);
+					if (count > 0) {//удаляем связь между старыми вершинами и создаем новую
+						auto x = find(result.Nodes[i].adjacent_nodes.begin(), result.Nodes[i].adjacent_nodes.end(), k);
+						result.Nodes[i].adjacent_nodes.erase(x);
+						result.Nodes[i].adjacent_nodes.push_back(current_index_adding_node);
 
-					result.Edges.push_back({ i, current_index_adding_node });
-					result.New_edges[i][current_index_adding_node] = result.Edges.size() - 1;
+						result.Edges.push_back({ i, current_index_adding_node });
+						result.New_edges[i][current_index_adding_node] = result.Edges.size() - 1;
 
-					int index = result.New_edges[i][i + 1];
-					result.Edges[index] = { -1, -1 };
-				}
-
-				for (int j = 0; j < count; ++j) {
-					Node n;
-					n.index = current_index_adding_node;
-					n.adjacent_nodes = generate_adjacent_nodes(current_index_adding_node, count_of_nodes);
-					
-					if (j < count - 1) {//нужно связать текущую вершину со следующей
-						n.adjacent_nodes.push_back(current_index_adding_node + 1);
-					}
-					else {//последняя добавляемая вершина соединяется с вершиной назначения из паттерна
-						n.adjacent_nodes.push_back(i + 1);
+						int index = result.New_edges[i][k];
+						result.Edges[index] = { -1, -1 };
 					}
 
-					n.sequence = generate_random_seq(seq_len);
-					result.AddNode(n);
+					for (int j = 0; j < count; ++j) {
+						Node n;
+						n.index = current_index_adding_node;
+						n.adjacent_nodes = generate_adjacent_nodes(current_index_adding_node, count_of_nodes);
 
-					current_index_adding_node++;
-					count_adding_nodes--;
+						if (j < count - 1) {//нужно связать текущую вершину со следующей
+							n.adjacent_nodes.push_back(current_index_adding_node + 1);
+						}
+						else {//последняя добавляемая вершина соединяется с вершиной назначения из паттерна
+							n.adjacent_nodes.push_back(k);
+						}
+
+						n.sequence = generate_random_seq(seq_len);
+						result.AddNode(n);
+
+						current_index_adding_node++;
+						count_adding_nodes--;
+					}
 				}
 			}
 		}

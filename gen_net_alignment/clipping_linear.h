@@ -207,13 +207,38 @@ void find_average_time_clipping(int min_pattern_count, int min_pattern_len, int 
 		cout << "eto fiasco" << endl;
 	}
 
+	ofstream file2;
+	file2.open("times2.txt");
+
+	if (!file2.is_open()) {
+		cout << "eto fiasco" << endl;
+	}
+
+	ofstream categories_file;
+	categories_file.open("categories.txt");
+
+	if (!categories_file.is_open()) {
+		cout << "eto fiasco" << endl;
+	}
+
+	vector<long long> times = vector<long long>();
+
+	//промежуток между min и max делится на десять равных частей и каждое время попадает в одну из этих категорий
+	//categories[i] содержит количество времен, принадлежащих категории i
+	int count_of_categories = 30;
+	vector<int> categories = vector<int>(count_of_categories, 0);
+
+	prepare_table();
+
 	for (int pattern_count = min_pattern_count; pattern_count < max_pattern_count + 1; ++pattern_count) {
 		for (int pattern_len = min_pattern_len; pattern_len < max_pattern_len + 1; pattern_len += delta_pattern) {
-			for (int net_len = min_net_len; net_len < max_net_len + 1; net_len += delta_net) {
-				long max_time, min_time, average_time, sum_time;
+			for (int net_len = max(min_net_len, pattern_len); net_len < max_net_len + 1; net_len += delta_net) {
+				long long max_time, min_time, average_time, sum_time;
 				max_time = min_time = average_time = sum_time = 0;
-				for (int test_index = 0; test_index < count_of_tests; ++test_index) {
-					vector<Net> patterns = patterns = generate_patterns_vector(pattern_count, pattern_len, seq_len);
+				file2 << "pattern_len = " << pattern_len << "; ";
+				file2 << "net_len = " << net_len << "; " << endl;
+				for (int test_index = 1; test_index < count_of_tests + 1; ++test_index) {
+					vector<Net> patterns = generate_patterns_vector(pattern_count, pattern_len, seq_len);
 
 					Net net = generate_net(net_len, seq_len);
 
@@ -229,14 +254,27 @@ void find_average_time_clipping(int min_pattern_count, int min_pattern_len, int 
 
 					sum_time += current_time;
 
-					max_time = max(max_time, current_time);
+					if (max_time < current_time) {
+						max_time = current_time;
+					}
 
 					if (min_time == 0) {
 						min_time = current_time;
 					}
 					else {
-						min_time = min(min_time, current_time);
+						if (min_time > current_time)
+							min_time = current_time;
 					}
+
+					average_time = sum_time / test_index;
+					file << "min_time = " << min_time << "; ";
+					file << "max_time = " << max_time << "; ";
+					file << "average_time = " << average_time << "; ";
+					file << "current_time = " << current_time << "; ";
+					file << endl;
+
+					file2 << current_time << endl;
+					times.push_back(current_time);
 				}
 				average_time = sum_time / count_of_tests;
 				file << "pattern_count = " << pattern_count << "; ";
@@ -245,10 +283,32 @@ void find_average_time_clipping(int min_pattern_count, int min_pattern_len, int 
 				file << "min_time = " << min_time << "; ";
 				file << "max_time = " << max_time << "; ";
 				file << "average_time = " << average_time << "; ";
-				file << endl;
+				file << "end" << endl;
+
+				file2 << "end" << endl;
+
+				long long delta = ((max_time - min_time) / count_of_categories) + 1;
+
+				for (int i = 0; i < count_of_tests; i++) {
+					long long current_time = times[i] - min_time;
+					int current_categories = current_time / delta;
+					current_categories = min(current_categories, count_of_categories - 1);
+					categories[current_categories]++;
+				}
+
+				categories_file << "pattern_count = " << pattern_count << "; ";
+				categories_file << "pattern_len = " << pattern_len << "; " << endl;
+
+				for (int i = 0; i < count_of_categories; i++) {
+					categories_file << "from " << min_time + delta * i << ";";
+					categories_file << "to " << min_time + delta * (i + 1) << ";";
+					categories_file << "count = " << categories[i] << endl;
+				}
 			}
 			file << endl;
 		}
 	}
 	file.close();
+	file2.close();
+	categories_file.close();
 }

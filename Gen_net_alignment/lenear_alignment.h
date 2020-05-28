@@ -24,8 +24,9 @@ alignment dynamic_realization(WayStruct& const pattern, Net& const net, Net& con
 			alig.Nodes[pattern.way[1]].push_back(j);
 
 			for (int k = 0; k < shortest_path_table[i][j].length - 1; ++k) {
-				alig.Edges[pattern_net.New_edges[pattern.way[0]][pattern.way[1]]].push_back(net.Edges[net.New_edges[shortest_path_table[i][j].way[k]]
-																												   [shortest_path_table[i][j].way[k + 1]]]);
+				alig.Edges[pattern_net.New_edges[pattern.way[0]][pattern.way[1]]].
+					push_back(net.Edges[net.New_edges[shortest_path_table[i][j].way[k]]
+					[shortest_path_table[i][j].way[k + 1]]]);
 			}
 
 			//не существует пути от i к j
@@ -167,15 +168,11 @@ void find_average_time_dynamic(int min_pattern_count, int min_pattern_len, int m
 
 	for (int pattern_count = min_pattern_count; pattern_count < max_pattern_count + 1; ++pattern_count) {
 		for (int pattern_len = min_pattern_len; pattern_len < max_pattern_len + 1; pattern_len += delta_pattern) {
-			for (int net_len = min_net_len; net_len < max_net_len + 1; net_len += delta_net) {
+			for (int net_len = max(min_net_len, pattern_len); net_len < max_net_len + 1; net_len += delta_net) {
 				long max_time, min_time, average_time, sum_time;
 				max_time = min_time = average_time = sum_time = 0;
 				for (int test_index = 0; test_index < count_of_tests; ++test_index) {
-					vector<Net> patterns = vector<Net>();
-
-					for (int i = 0; i < pattern_count; ++i) {
-						patterns.push_back(generate_pattern(pattern_len, seq_len));
-					}
+					vector<Net> patterns = generate_patterns_vector(pattern_count, pattern_len, seq_len);
 
 					Net net = generate_net(net_len, seq_len);
 

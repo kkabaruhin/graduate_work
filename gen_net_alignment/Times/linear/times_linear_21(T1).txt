@@ -1,0 +1,17 @@
+pattern_count = 1; pattern_len = 21; net_len = 21; min_time = 4538; max_time = 5103; average_time = 4888; 
+pattern_count = 1; pattern_len = 21; net_len = 26; min_time = 8811; max_time = 13568; average_time = 11406; 
+pattern_count = 1; pattern_len = 21; net_len = 31; min_time = 13293; max_time = 14715; average_time = 13668; 
+pattern_count = 1; pattern_len = 21; net_len = 36; min_time = 19484; max_time = 21600; average_time = 20709; 
+pattern_count = 1; pattern_len = 21; net_len = 41; min_time = 29684; max_time = 30763; average_time = 30469; 
+pattern_count = 1; pattern_len = 21; net_len = 46; min_time = 42665; max_time = 43913; average_time = 43269; 
+pattern_count = 1; pattern_len = 21; net_len = 51; min_time = 58815; max_time = 67524; average_time = 61251; 
+pattern_count = 1; pattern_len = 21; net_len = 56; min_time = 76529; max_time = 78732; average_time = 77757; 
+pattern_count = 1; pattern_len = 21; net_len = 61; min_time = 99126; max_time = 102893; average_time = 100736; 
+pattern_count = 1; pattern_len = 21; net_len = 66; min_time = 125953; max_time = 128341; average_time = 126954; 
+pattern_count = 1; pattern_len = 21; net_len = 71; min_time = 158085; max_time = 159725; average_time = 159036; 
+pattern_count = 1; pattern_len = 21; net_len = 76; min_time = 192618; max_time = 195102; average_time = 193709; 
+pattern_count = 1; pattern_len = 21; net_len = 81; min_time = 230616; max_time = 235235; average_time = 233241; 
+pattern_count = 1; pattern_len = 21; net_len = 86; min_time = 272895; max_time = 280920; average_time = 278614; 
+pattern_count = 1; pattern_len = 21; net_len = 91; min_time = 332585; max_time = 25943811; average_time = 5483810; 
+pattern_count = 1; pattern_len = 21; net_len = 96; min_time = 397343; max_time = 469035; average_time = 423608; 
+
